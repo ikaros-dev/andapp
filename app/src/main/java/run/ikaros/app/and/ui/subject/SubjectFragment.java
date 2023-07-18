@@ -1,5 +1,7 @@
 package run.ikaros.app.and.ui.subject;
 
+import static run.ikaros.app.and.constants.TmpConst.SUBJECT_COVER_URL;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import run.ikaros.app.and.R;
+import run.ikaros.app.and.constants.TmpConst;
 
 public class SubjectFragment extends Fragment {
     private RecyclerView subjectRecyclerView;
     private SubjectAdapter subjectAdapter;
-
-    private static final String testTmpUrl
-            = "https://lain.bgm.tv/r/400/pic/cover/l/68/ea/333979_lG5Gt.jpg";
 
     @Nullable
     @Override
@@ -40,13 +40,13 @@ public class SubjectFragment extends Fragment {
     private List<Subject> getSubjectList() {
         // 获取番剧数据集合的示例方法
         List<Subject> subjectList = new ArrayList<>();
-        subjectList.add(new Subject("Bangumi-1", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-2", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-3", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-4", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-5", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-6", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-7", testTmpUrl));
+        subjectList.add(new Subject("Bangumi-1", SUBJECT_COVER_URL));
+        subjectList.add(new Subject("Bangumi-2", SUBJECT_COVER_URL));
+        subjectList.add(new Subject("Bangumi-3", SUBJECT_COVER_URL));
+        subjectList.add(new Subject("Bangumi-4", SUBJECT_COVER_URL));
+        subjectList.add(new Subject("Bangumi-5", SUBJECT_COVER_URL));
+        subjectList.add(new Subject("Bangumi-6", SUBJECT_COVER_URL));
+        subjectList.add(new Subject("Bangumi-7", SUBJECT_COVER_URL));
         // ...
         return subjectList;
     }

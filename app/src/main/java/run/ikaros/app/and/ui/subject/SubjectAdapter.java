@@ -1,6 +1,7 @@
 package run.ikaros.app.and.ui.subject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.transition.Transition;
 import java.util.List;
 
 import run.ikaros.app.and.R;
+import run.ikaros.app.and.SubjectDetailsActivity;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder> {
     private final List<Subject> subjectList;
@@ -42,7 +44,13 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     public SubjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_subject, parent, false);
-        return new SubjectViewHolder(view);
+        if (fragment != null) {
+            return new SubjectViewHolder(view, fragment);
+        }
+        if (activity != null) {
+            return new SubjectViewHolder(view, activity);
+        }
+        throw new IllegalArgumentException("context is null.");
     }
 
     @Override
@@ -66,12 +74,23 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         private ImageView subjectImageView;
         private TextView subjectTextView;
 
-        public SubjectViewHolder(@NonNull View itemView) {
+        public SubjectViewHolder(@NonNull View itemView, Activity activity) {
             super(itemView);
             subjectImageView = itemView.findViewById(R.id.subjectImageView);
             subjectTextView = itemView.findViewById(R.id.subjectTextView);
             subjectImageView.setOnClickListener(v -> {
+                Intent intent = new Intent(activity, SubjectDetailsActivity.class);
+                activity.startActivity(intent);
+            });
+        }
 
+        public SubjectViewHolder(@NonNull View itemView, Fragment fragment) {
+            super(itemView);
+            subjectImageView = itemView.findViewById(R.id.subjectImageView);
+            subjectTextView = itemView.findViewById(R.id.subjectTextView);
+            subjectImageView.setOnClickListener(v -> {
+                Intent intent = new Intent(fragment.getContext(), SubjectDetailsActivity.class);
+                fragment.requireActivity().startActivity(intent);
             });
         }
 
