@@ -6,35 +6,42 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.VideoView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import run.ikaros.app.and.constants.TmpConst;
-import run.ikaros.app.and.databinding.ActivitySubjectDetailsBinding;
 
 public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVideoPlayer> {
 
     StandardGSYVideoPlayer detailPlayer;
-
-        private String url = "http://7xjmzj.com1.z0.glb.clouddn.com/20171026175005_JObCxCE2.mp4";
-//    private String url = "http://alvideo.ippzone.com/zyvd/98/90/b753-55fe-11e9-b0d8-00163e0c0248";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_details);
 
+        final TextView titleTextView = findViewById(R.id.subjectTitle);
+        titleTextView.setText(TmpConst.Nas.Subject.TITLE);
+
+        final TextView titleCnTextView = findViewById(R.id.subjectTitleCn);
+        titleCnTextView.setText(TmpConst.Nas.Subject.TITLE_CN);
+
+        final TextView descTextView = findViewById(R.id.subjectDesc);
+        descTextView.setText(TmpConst.Nas.Subject.DESC);
+
+        final ImageView imageView = findViewById(R.id.subjectCover);
+        imageView.setContentDescription("Subject cover.");
+        Uri imageUri = Uri.parse(TmpConst.Nas.Subject.COVER);
+        Glide.with(this)
+                .load(imageUri)
+                .into(imageView);
+
+
         detailPlayer = (StandardGSYVideoPlayer) findViewById(R.id.detail_player);
-        //增加title
         detailPlayer.getTitleTextView().setVisibility(View.GONE);
         detailPlayer.getBackButton().setVisibility(View.GONE);
 
@@ -63,7 +70,7 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
         //loadCover(imageView, url);
         return new GSYVideoOptionBuilder()
                 .setThumbImageView(imageView)
-                .setUrl(url)
+                .setUrl(TmpConst.Nas.Subject.VIDEO_MKV)
                 .setCacheWithPlay(true)
                 .setVideoTitle("这里是一个竖直方向的视频")
                 .setIsTouchWiget(true)
