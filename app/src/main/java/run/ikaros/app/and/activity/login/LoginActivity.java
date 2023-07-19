@@ -24,7 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import run.ikaros.app.and.R;
+import run.ikaros.app.and.activity.login.data.Result;
+import run.ikaros.app.and.api.User;
 import run.ikaros.app.and.constants.AppConst;
+import run.ikaros.app.and.constants.UserKeyConst;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,10 +42,15 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
+        final EditText baseUrlEditText = findViewById(R.id.baseUrl);
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
+        // set default value
+        baseUrlEditText.setText("http://nas:9999");
+        usernameEditText.setText("tomoki");
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -104,7 +112,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
+                    loginViewModel.login(baseUrlEditText.getText().toString(),
+                            usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
                 }
                 return false;
@@ -115,13 +124,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
+                Result<User> result = loginViewModel.login(baseUrlEditText.getText().toString(),
+                        usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-                SharedPreferences sharedPreferences = getSharedPreferences(AppConst.SHARED_PREFERENCES_KEY, MODE_PRIVATE);
-                SharedPreferences.Editor edit = sharedPreferences.edit();
-                edit.putString(AppConst.USERNAME_KEY, usernameEditText.getText().toString() );
-                edit.putString(AppConst.PASSWORD_KEY, passwordEditText.getText().toString());
-                edit.commit();
+                if (result instanceof Result.Success) {
+                    SharedPreferences sharedPreferences
+                            = getSharedPreferences(UserKeyConst.SHARED_PREFERENCES, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = sharedPreferences.edit();
+                    edit.putString(UserKeyConst.BASE_URL, baseUrlEditText.getText().toString());
+                    edit.putString(UserKeyConst.USERNAME, usernameEditText.getText().toString());
+                    edit.putString(UserKeyConst.PASSWORD, passwordEditText.getText().toString());
+                    edit.commit();
+                }
             }
         });
     }

@@ -1,15 +1,15 @@
 package run.ikaros.app.and.activity.login;
 
+import android.util.Patterns;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.util.Patterns;
-
+import run.ikaros.app.and.R;
 import run.ikaros.app.and.activity.login.data.LoginRepository;
 import run.ikaros.app.and.activity.login.data.Result;
-import run.ikaros.app.and.activity.login.data.model.LoggedInUser;
-import run.ikaros.app.and.R;
+import run.ikaros.app.and.api.User;
 
 public class LoginViewModel extends ViewModel {
 
@@ -29,16 +29,17 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public void login(String username, String password) {
+    public Result<User> login(String baseUrl, String username, String password) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        Result<User> result = loginRepository.login(baseUrl, username, password);
 
         if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+            User data = ((Result.Success<User>) result).getData();
+            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getNickname())));
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
         }
+        return result;
     }
 
     public void loginDataChanged(String username, String password) {

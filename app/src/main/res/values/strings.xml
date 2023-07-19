@@ -4,6 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_subject">Subject</string>
+    <string name="prompt_url">站点URL</string>
     <string name="prompt_username">用户名</string>
     <string name="prompt_password">密码</string>
     <string name="action_sign_in">登录</string>

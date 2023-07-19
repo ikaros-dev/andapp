@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import run.ikaros.app.and.R;
 import run.ikaros.app.and.constants.AppConst;
+import run.ikaros.app.and.constants.UserKeyConst;
 import run.ikaros.app.and.databinding.ActivitySubjectBinding;
 import run.ikaros.app.and.activity.login.LoginActivity;
 import run.ikaros.app.and.activity.subject.Subject;
@@ -40,8 +41,8 @@ public class SubjectActivity extends AppCompatActivity {
         subjectRecyclerView.setAdapter(subjectAdapter);
         subjectRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
-        SharedPreferences sharedPreferences = getSharedPreferences(AppConst.SHARED_PREFERENCES_KEY, MODE_PRIVATE);
-        String username = sharedPreferences.getString(AppConst.USERNAME_KEY, "");
+        SharedPreferences sharedPreferences = getSharedPreferences(UserKeyConst.SHARED_PREFERENCES, MODE_PRIVATE);
+        String username = sharedPreferences.getString(UserKeyConst.USERNAME, "");
         if(Objects.isNull(username) || "".equals(username)) {
             Intent in = new Intent(SubjectActivity.this, LoginActivity.class);
             startActivity(in);
