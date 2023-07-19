@@ -13,21 +13,16 @@ import java.util.List;
 import java.util.Objects;
 
 import run.ikaros.app.and.R;
-import run.ikaros.app.and.constants.AppConst;
 import run.ikaros.app.and.constants.UserKeyConst;
 import run.ikaros.app.and.databinding.ActivitySubjectBinding;
 import run.ikaros.app.and.activity.login.LoginActivity;
-import run.ikaros.app.and.activity.subject.Subject;
-import run.ikaros.app.and.activity.subject.SubjectAdapter;
+import run.ikaros.app.and.api.subject.model.Subject;
 
 public class SubjectActivity extends AppCompatActivity {
 
     private ActivitySubjectBinding binding;
     private RecyclerView subjectRecyclerView;
     private SubjectAdapter subjectAdapter;
-
-    private static final String testTmpUrl
-            = "https://lain.bgm.tv/r/400/pic/cover/l/68/ea/333979_lG5Gt.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +48,13 @@ public class SubjectActivity extends AppCompatActivity {
     private List<Subject> getSubjectList() {
         // 获取番剧数据集合的示例方法
         List<Subject> subjectList = new ArrayList<>();
-        subjectList.add(new Subject("Bangumi-1", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-2", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-3", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-4", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-5", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-6", testTmpUrl));
-        subjectList.add(new Subject("Bangumi-7", testTmpUrl));
+//        subjectList.add(new Subject("Bangumi-1", testTmpUrl));
+//        subjectList.add(new Subject("Bangumi-2", testTmpUrl));
+//        subjectList.add(new Subject("Bangumi-3", testTmpUrl));
+//        subjectList.add(new Subject("Bangumi-4", testTmpUrl));
+//        subjectList.add(new Subject("Bangumi-5", testTmpUrl));
+//        subjectList.add(new Subject("Bangumi-6", testTmpUrl));
+//        subjectList.add(new Subject("Bangumi-7", testTmpUrl));
         // ...
         return subjectList;
     }

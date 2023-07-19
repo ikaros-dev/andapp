@@ -1,6 +1,6 @@
 package run.ikaros.app.and.activity.login.data;
 
-import run.ikaros.app.and.api.User;
+import run.ikaros.app.and.api.user.User;
 
 /**
  * Class that requests authentication and user information from the remote data source and

@@ -14,4 +14,10 @@ public class Assert {
             throw new IllegalArgumentException(msg);
         }
     }
+
+    public static void isTrue(boolean con, String msg) {
+        if(!con) {
+            throw new IllegalArgumentException(msg);
+        }
+    }
 }

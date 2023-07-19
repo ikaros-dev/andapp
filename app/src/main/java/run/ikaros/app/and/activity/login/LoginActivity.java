@@ -25,8 +25,7 @@ import android.widget.Toast;
 
 import run.ikaros.app.and.R;
 import run.ikaros.app.and.activity.login.data.Result;
-import run.ikaros.app.and.api.User;
-import run.ikaros.app.and.constants.AppConst;
+import run.ikaros.app.and.api.user.User;
 import run.ikaros.app.and.constants.UserKeyConst;
 
 public class LoginActivity extends AppCompatActivity {

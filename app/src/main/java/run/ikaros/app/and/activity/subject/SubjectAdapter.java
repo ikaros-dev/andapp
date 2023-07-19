@@ -22,6 +22,7 @@ import com.bumptech.glide.request.transition.Transition;
 import java.util.List;
 
 import run.ikaros.app.and.R;
+import run.ikaros.app.and.api.subject.model.Subject;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder> {
     private final List<Subject> subjectList;
@@ -100,7 +101,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             // 设置图片和文本
             Glide.with(fragment)
                     .asBitmap()
-                    .load(subject.getCoverUrl())
+                    .load(subject.getCover())
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -125,7 +126,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
                         }
                     });
 
-            subjectTextView.setText(subject.getTitle());
+            subjectTextView.setText(subject.getName());
         }
 
         public void bind(Subject subject, Activity activity) {
@@ -135,7 +136,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             // 设置图片和文本
             Glide.with(activity)
                     .asBitmap()
-                    .load(subject.getCoverUrl())
+                    .load(subject.getCover())
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -160,7 +161,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
                         }
                     });
 
-            subjectTextView.setText(subject.getTitle());
+            subjectTextView.setText(subject.getName());
         }
     }
 }

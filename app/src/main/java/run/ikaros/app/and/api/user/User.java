@@ -1,4 +1,4 @@
-package run.ikaros.app.and.api;
+package run.ikaros.app.and.api.user;
 
 public class User {
     private String username;

@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 import run.ikaros.app.and.R;
 import run.ikaros.app.and.activity.login.data.LoginRepository;
 import run.ikaros.app.and.activity.login.data.Result;
-import run.ikaros.app.and.api.User;
+import run.ikaros.app.and.api.user.User;
 
 public class LoginViewModel extends ViewModel {
 
