@@ -1,7 +1,9 @@
 package run.ikaros.app.and.activity.subject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -20,23 +22,31 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.List;
+import java.util.Objects;
 
 import run.ikaros.app.and.R;
 import run.ikaros.app.and.api.subject.model.Subject;
+import run.ikaros.app.and.constants.UserKeyConst;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder> {
     private final List<Subject> subjectList;
     private Fragment fragment;
     private Activity activity;
+    private static String baseUrl;
 
     public SubjectAdapter(List<Subject> subjectList, Fragment fragment) {
         this.subjectList = subjectList;
         this.fragment = fragment;
+        SharedPreferences sharedPreferences = fragment.requireActivity()
+                .getSharedPreferences(UserKeyConst.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        baseUrl = sharedPreferences.getString(UserKeyConst.BASE_URL, "");
     }
 
     public SubjectAdapter(List<Subject> subjectList, Activity activity) {
         this.subjectList = subjectList;
         this.activity = activity;
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(UserKeyConst.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        baseUrl = sharedPreferences.getString(UserKeyConst.BASE_URL, "");
     }
 
     @NonNull
@@ -101,7 +111,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             // 设置图片和文本
             Glide.with(fragment)
                     .asBitmap()
-                    .load(subject.getCover())
+                    .load(baseUrl + subject.getCover())
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -136,7 +146,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             // 设置图片和文本
             Glide.with(activity)
                     .asBitmap()
-                    .load(subject.getCover())
+                    .load(baseUrl + subject.getCover())
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {

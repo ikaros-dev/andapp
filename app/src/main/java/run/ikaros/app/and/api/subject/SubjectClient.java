@@ -20,6 +20,7 @@ public class SubjectClient {
     private SubjectApi subjectApi;
 
     public SubjectClient(AuthParams authParams) {
+        Assert.notNull(authParams, "authParams must not null.");
         this.authParams = authParams;
         Assert.notBlank(authParams.getBaseUrl(), "baseUrl must not blank.");
         Assert.notBlank(authParams.getUsername(), "username must not blank.");
