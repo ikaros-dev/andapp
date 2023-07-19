@@ -1,4 +1,4 @@
-package run.ikaros.app.and.ui.subject;
+package run.ikaros.app.and.activity.subject;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,7 +22,6 @@ import com.bumptech.glide.request.transition.Transition;
 import java.util.List;
 
 import run.ikaros.app.and.R;
-import run.ikaros.app.and.SubjectDetailsActivity;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder> {
     private final List<Subject> subjectList;

@@ -1,4 +1,4 @@
-package run.ikaros.app.and.ui.subject;
+package run.ikaros.app.and.activity.subject;
 
 public class Subject {
     private String title;

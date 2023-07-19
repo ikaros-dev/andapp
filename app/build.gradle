@@ -44,6 +44,11 @@ dependencies {
 
     implementation 'com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:v8.4.0-release-jitpack'
     implementation 'com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer-exo2:v8.4.0-release-jitpack'
+    implementation 'androidx.annotation:annotation:1.6.0'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 

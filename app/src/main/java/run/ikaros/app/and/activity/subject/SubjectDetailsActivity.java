@@ -1,4 +1,4 @@
-package run.ikaros.app.and;
+package run.ikaros.app.and.activity.subject;
 
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +13,7 @@ import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
+import run.ikaros.app.and.R;
 import run.ikaros.app.and.constants.TmpConst;
 
 public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVideoPlayer> {
@@ -70,9 +71,9 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
         //loadCover(imageView, url);
         return new GSYVideoOptionBuilder()
                 .setThumbImageView(imageView)
-                .setUrl(TmpConst.Nas.Subject.VIDEO_MKV)
+                .setUrl(TmpConst.Nas.Subject.VIDEO)
                 .setCacheWithPlay(true)
-                .setVideoTitle("这里是一个竖直方向的视频")
+                .setVideoTitle("这里是剧集标题")
                 .setIsTouchWiget(true)
                 //.setAutoFullWithSize(true)
                 .setRotateViewAuto(false)
