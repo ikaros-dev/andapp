@@ -47,7 +47,7 @@ public class SubjectActivity extends AppCompatActivity {
     private SubjectAdapter subjectAdapter;
     private SubjectClient subjectClient;
     private Integer page = 1;
-    private final Integer size = 9;
+    private final Integer size = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
