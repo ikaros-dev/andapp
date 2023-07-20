@@ -204,4 +204,15 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
         GSYVideoManager.releaseAllVideos();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        detailPlayer.onVideoPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        detailPlayer.onVideoResume();
+    }
 }
