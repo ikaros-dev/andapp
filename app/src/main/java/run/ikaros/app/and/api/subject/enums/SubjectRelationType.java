@@ -2,7 +2,7 @@ package run.ikaros.app.and.api.subject.enums;
 
 import java.util.Arrays;
 
-import run.ikaros.app.and.Utils.Assert;
+import run.ikaros.app.and.infra.utils.Assert;
 
 public enum SubjectRelationType {
     OTHER(1),

@@ -2,9 +2,9 @@ package run.ikaros.app.and.activity.login.data;
 
 import java.io.IOException;
 
-import run.ikaros.app.and.Utils.Assert;
 import run.ikaros.app.and.api.user.User;
 import run.ikaros.app.and.api.user.UserClient;
+import run.ikaros.app.and.infra.utils.Assert;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.

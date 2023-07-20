@@ -1,10 +1,5 @@
-package run.ikaros.app.and.Utils;
+package run.ikaros.app.and.infra.utils;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
-import java.util.Arrays;
 import java.util.Base64;
 
 public class AuthorizationUtils {

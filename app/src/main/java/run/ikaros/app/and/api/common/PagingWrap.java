@@ -4,7 +4,7 @@ package run.ikaros.app.and.api.common;
 import java.util.Collections;
 import java.util.List;
 
-import run.ikaros.app.and.Utils.Assert;
+import run.ikaros.app.and.infra.utils.Assert;
 
 public class PagingWrap<T> {
 

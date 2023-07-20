@@ -8,40 +8,49 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import run.ikaros.app.and.R;
 import run.ikaros.app.and.constants.TmpConst;
+import run.ikaros.app.and.fragment.adapter.SubjectTabAdapter;
 
 public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVideoPlayer> {
 
     StandardGSYVideoPlayer detailPlayer;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_details);
 
-        final TextView titleTextView = findViewById(R.id.subjectTitle);
-        titleTextView.setText(TmpConst.Nas.Subject.TITLE);
-
-        final TextView titleCnTextView = findViewById(R.id.subjectTitleCn);
-        titleCnTextView.setText(TmpConst.Nas.Subject.TITLE_CN);
-
-        final TextView descTextView = findViewById(R.id.subjectDesc);
-        descTextView.setText(TmpConst.Nas.Subject.DESC);
-
-        final ImageView imageView = findViewById(R.id.subjectCover);
-        imageView.setContentDescription("Subject cover.");
-        Uri imageUri = Uri.parse(TmpConst.Nas.Subject.COVER);
-        Glide.with(this)
-                .load(imageUri)
-                .into(imageView);
 
 
+        // bind tab fragments
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.subjectViewPager);
+        SubjectTabAdapter tabAdapter = new SubjectTabAdapter(getSupportFragmentManager(), getLifecycle());
+        viewPager.setAdapter(tabAdapter);
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("详情");
+                    break;
+                case 1:
+                    tab.setText("选集");
+                    break;
+            }
+        }).attach();
+
+        // init video player
         detailPlayer = (StandardGSYVideoPlayer) findViewById(R.id.detail_player);
         detailPlayer.getTitleTextView().setVisibility(View.GONE);
         detailPlayer.getBackButton().setVisibility(View.GONE);

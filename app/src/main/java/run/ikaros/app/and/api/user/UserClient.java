@@ -9,9 +9,7 @@ import java.io.IOException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import run.ikaros.app.and.Utils.Assert;
-import run.ikaros.app.and.api.common.PagingWrap;
-import run.ikaros.app.and.api.subject.model.Subject;
+import run.ikaros.app.and.infra.utils.Assert;
 
 public class UserClient {
     private final String baseUrl;

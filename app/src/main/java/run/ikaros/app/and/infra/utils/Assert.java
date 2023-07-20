@@ -1,4 +1,4 @@
-package run.ikaros.app.and.Utils;
+package run.ikaros.app.and.infra.utils;
 
 import java.util.Objects;
 

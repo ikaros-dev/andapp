@@ -1,4 +1,4 @@
-package run.ikaros.app.and.Utils;
+package run.ikaros.app.and.infra.utils;
 
 public class StringUtils {
     public static boolean isBlank(String str) {

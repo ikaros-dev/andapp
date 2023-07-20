@@ -3,12 +3,15 @@ package run.ikaros.app.and.activity.subject;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,13 +60,22 @@ public class SubjectActivity extends AppCompatActivity {
 
 
     private List<Subject> getSubjectList() {
+        if(Objects.isNull(subjectClient)) {
+            return Collections.emptyList();
+        }
         // 获取番剧数据集合的示例方法
         List<Subject> subjectList = new ArrayList<>();
         Thread thread = new Thread(() -> {
-            PagingWrap<Subject> subjectPagingWrap
-                    = subjectClient.listSubjectsByCondition(1, 12, null, null, false, null);
-            List<Subject> subjects = subjectPagingWrap.getItems();
-            subjectList.addAll(subjects);
+            try {
+                PagingWrap<Subject> subjectPagingWrap
+                        = subjectClient.listSubjectsByCondition(1, 12, null, null, false, null);
+                List<Subject> subjects = subjectPagingWrap.getItems();
+                subjectList.addAll(subjects);
+            } catch (Exception e) {
+                Log.e(SubjectActivity.class.getSimpleName(), "请求条目API异常", e);
+                SubjectActivity.this.runOnUiThread(() ->
+                        Toast.makeText(getApplicationContext(), "请求条目API异常", Toast.LENGTH_LONG).show());
+            }
         });
         thread.start();
         while (thread.isAlive()) {
