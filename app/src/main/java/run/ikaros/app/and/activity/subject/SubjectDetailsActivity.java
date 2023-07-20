@@ -176,7 +176,7 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
         if (StringUtils.isBlank(nameCn)) {
             nameCn = episode.getName();
         }
-        nameCn = episode.getSequence().intValue() + ". " + nameCn + " (" + episodeResource.getName() + ')';
+        nameCn = episode.getSequence() + ". " + nameCn + " (" + episodeResource.getName() + ')';
         getGSYVideoOptionBuilder()
                 .setVideoTitle(nameCn)
                 .setUrl(episodeUrl)

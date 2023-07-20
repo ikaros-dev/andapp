@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ToggleButton
-        android:id="@+id/episodeToggleButton"
+    <Button
+        android:id="@+id/episodeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

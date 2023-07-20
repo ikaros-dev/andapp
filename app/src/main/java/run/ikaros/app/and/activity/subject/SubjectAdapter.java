@@ -54,6 +54,10 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         this.subjectList = subjectList;
     }
 
+    public void addSubjectList(List<Subject> subjectList) {
+        this.subjectList.addAll(subjectList);
+    }
+
     @NonNull
     @Override
     public SubjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
