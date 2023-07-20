@@ -2,7 +2,6 @@ package run.ikaros.app.and.activity.subject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail;
@@ -33,7 +31,6 @@ import run.ikaros.app.and.api.subject.SubjectClient;
 import run.ikaros.app.and.api.subject.model.Episode;
 import run.ikaros.app.and.api.subject.model.EpisodeResource;
 import run.ikaros.app.and.api.subject.model.Subject;
-import run.ikaros.app.and.constants.TmpConst;
 import run.ikaros.app.and.constants.UserKeyConst;
 import run.ikaros.app.and.fragment.adapter.SubjectTabAdapter;
 import run.ikaros.app.and.fragment.subject.SubjectEpisodesFragment;
@@ -92,7 +89,7 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
         }).attach();
 
         // init video player
-        detailPlayer = (StandardGSYVideoPlayer) findViewById(R.id.detail_player);
+        detailPlayer = findViewById(R.id.detail_player);
         detailPlayer.getTitleTextView().setVisibility(View.GONE);
         detailPlayer.getBackButton().setVisibility(View.VISIBLE);
         detailPlayer.getBackButton().setOnClickListener(v -> onBackPressed());
@@ -142,7 +139,7 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
     public GSYVideoOptionBuilder getGSYVideoOptionBuilder() {
         //内置封面可参考SampleCoverVideo
         ImageView imageView = new ImageView(this);
-        //loadCover(imageView, url);
+        imageView.setImageResource(R.mipmap.videocover);
         return new GSYVideoOptionBuilder()
                 .setThumbImageView(imageView)
                 .setCacheWithPlay(true)
@@ -183,6 +180,7 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
                 .setVideoTitle(nameCn)
                 .setUrl(episodeUrl)
                 .build(detailPlayer);
+
         detailPlayer.startPlayLogic();
         Log.i(SubjectDetailsActivity.class.getSimpleName(), "switch video title and url: " + episodeUrl);
     }
@@ -205,18 +203,5 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
         GSYVideoType.disableMediaCodecTexture();
         GSYVideoManager.releaseAllVideos();
     }
-//    private void loadCover(ImageView imageView, String url) {
-//        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//        imageView.setImageResource(R.mipmap.xxx1);
-//        Glide.with(this.getApplicationContext())
-//                .setDefaultRequestOptions(
-//                        new RequestOptions()
-//                                .frame(3000000)
-//                                .centerCrop()
-//                                .error(R.mipmap.xxx2)
-//                                .placeholder(R.mipmap.xxx1))
-//                .load(url)
-//                .into(imageView);
-//    }
 
 }
