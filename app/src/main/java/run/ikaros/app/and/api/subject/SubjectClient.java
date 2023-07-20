@@ -3,6 +3,7 @@ package run.ikaros.app.and.api.subject;
 import androidx.annotation.Nullable;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
@@ -28,6 +29,8 @@ public class SubjectClient {
         Assert.notBlank(authParams.getPassword(), "password must not blank.");
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .retryOnConnectionFailure(true)
+                .callTimeout(3, TimeUnit.SECONDS)
+                .readTimeout(3, TimeUnit.SECONDS)
                 .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(authParams.getBaseUrl())

@@ -27,9 +27,10 @@ import java.util.Objects;
 import run.ikaros.app.and.R;
 import run.ikaros.app.and.api.subject.model.Subject;
 import run.ikaros.app.and.constants.UserKeyConst;
+import run.ikaros.app.and.infra.utils.StringUtils;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder> {
-    private final List<Subject> subjectList;
+    private List<Subject> subjectList;
     private Fragment fragment;
     private Activity activity;
     private static String baseUrl;
@@ -47,6 +48,10 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         this.activity = activity;
         SharedPreferences sharedPreferences = activity.getSharedPreferences(UserKeyConst.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         baseUrl = sharedPreferences.getString(UserKeyConst.BASE_URL, "");
+    }
+
+    public void setSubjectList(List<Subject> subjectList) {
+        this.subjectList = subjectList;
     }
 
     @NonNull
@@ -169,7 +174,11 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
                         }
                     });
 
-            subjectTextView.setText(subject.getName());
+            String nameCn = subject.getNameCn();
+            if(StringUtils.isBlank(nameCn)) {
+                nameCn = subject.getName();
+            }
+            subjectTextView.setText(nameCn);
             subjectIdTextView.setText(String.valueOf(subject.getId()));
             subjectImageView.setOnClickListener(v -> {
                 Intent intent = new Intent(activity, SubjectDetailsActivity.class);

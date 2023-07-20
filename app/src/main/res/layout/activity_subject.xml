@@ -19,7 +19,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="搜索番剧" />
+            android:hint="根据中文名搜索番剧" />
+
+        <Switch
+            android:id="@+id/searchNsfwSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="nsfw"/>
 
         <Button
             android:id="@+id/searchButton"
