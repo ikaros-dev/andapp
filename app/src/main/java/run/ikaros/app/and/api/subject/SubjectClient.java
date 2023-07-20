@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 
 import java.io.IOException;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,9 +26,13 @@ public class SubjectClient {
         Assert.notBlank(authParams.getBaseUrl(), "baseUrl must not blank.");
         Assert.notBlank(authParams.getUsername(), "username must not blank.");
         Assert.notBlank(authParams.getPassword(), "password must not blank.");
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .retryOnConnectionFailure(true)
+                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(authParams.getBaseUrl())
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
                 .build();
         subjectApi = retrofit.create(SubjectApi.class);
     }

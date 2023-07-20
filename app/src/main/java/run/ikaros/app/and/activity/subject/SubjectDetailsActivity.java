@@ -2,6 +2,7 @@ package run.ikaros.app.and.activity.subject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +13,14 @@ import android.widget.Toast;
 
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -25,18 +28,24 @@ import run.ikaros.app.and.R;
 import run.ikaros.app.and.activity.login.LoginActivity;
 import run.ikaros.app.and.api.auth.AuthParams;
 import run.ikaros.app.and.api.subject.SubjectClient;
+import run.ikaros.app.and.api.subject.model.Episode;
+import run.ikaros.app.and.api.subject.model.EpisodeResource;
 import run.ikaros.app.and.api.subject.model.Subject;
 import run.ikaros.app.and.constants.TmpConst;
 import run.ikaros.app.and.constants.UserKeyConst;
 import run.ikaros.app.and.fragment.adapter.SubjectTabAdapter;
+import run.ikaros.app.and.fragment.subject.SubjectEpisodesFragment;
 import run.ikaros.app.and.infra.utils.Assert;
+import run.ikaros.app.and.infra.utils.StringUtils;
 
-public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVideoPlayer> {
+public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVideoPlayer>
+        implements SubjectEpisodesFragment.OnEpisodeSelectBtnClickListener {
 
     StandardGSYVideoPlayer detailPlayer;
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private SubjectClient subjectClient;
+    private String baseUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +60,8 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
             startActivity(in);
         } else {
             AuthParams authParams = new AuthParams();
-            authParams.setBaseUrl(sharedPreferences.getString(UserKeyConst.BASE_URL, ""));
+            baseUrl = sharedPreferences.getString(UserKeyConst.BASE_URL, "");
+            authParams.setBaseUrl(baseUrl);
             authParams.setUsername(sharedPreferences.getString(UserKeyConst.USERNAME, ""));
             authParams.setPassword(sharedPreferences.getString(UserKeyConst.PASSWORD, ""));
             subjectClient = new SubjectClient(authParams);
@@ -82,7 +92,8 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
         // init video player
         detailPlayer = (StandardGSYVideoPlayer) findViewById(R.id.detail_player);
         detailPlayer.getTitleTextView().setVisibility(View.GONE);
-        detailPlayer.getBackButton().setVisibility(View.GONE);
+        detailPlayer.getBackButton().setVisibility(View.VISIBLE);
+        detailPlayer.getBackButton().setOnClickListener(v -> onBackPressed());
 
         initVideoBuilderMode();
 
@@ -132,9 +143,7 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
         //loadCover(imageView, url);
         return new GSYVideoOptionBuilder()
                 .setThumbImageView(imageView)
-                .setUrl(TmpConst.Nas.Subject.VIDEO)
                 .setCacheWithPlay(true)
-                .setVideoTitle("这里是剧集标题")
                 .setIsTouchWiget(true)
                 //.setAutoFullWithSize(true)
                 .setRotateViewAuto(false)
@@ -156,6 +165,24 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
     @Override
     public boolean getDetailOrientationRotateAuto() {
         return true;
+    }
+
+    @Override
+    public void onBtnClick(Episode episode) {
+        List<EpisodeResource> resources = episode.getResources();
+        EpisodeResource episodeResource = resources.get(0);
+        String episodeUrl = baseUrl + episodeResource.getUrl();
+        String nameCn = episode.getNameCn();
+        if (StringUtils.isBlank(nameCn)) {
+            nameCn = episode.getName();
+        }
+        nameCn = episode.getSequence().intValue() + ". " + nameCn + " (" + episodeResource.getName() + ')';
+        getGSYVideoOptionBuilder()
+                .setVideoTitle(nameCn)
+                .setUrl(episodeUrl)
+                .build(detailPlayer);
+        detailPlayer.startPlayLogic();
+        Log.i(SubjectDetailsActivity.class.getSimpleName(), "switch video title and url: " + episodeUrl);
     }
 
 //    private void loadCover(ImageView imageView, String url) {
