@@ -1,43 +1,72 @@
 package run.ikaros.app.and.activity.subject;
 
-import android.net.Uri;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
+
 import run.ikaros.app.and.R;
+import run.ikaros.app.and.activity.login.LoginActivity;
+import run.ikaros.app.and.api.auth.AuthParams;
+import run.ikaros.app.and.api.subject.SubjectClient;
+import run.ikaros.app.and.api.subject.model.Subject;
 import run.ikaros.app.and.constants.TmpConst;
+import run.ikaros.app.and.constants.UserKeyConst;
 import run.ikaros.app.and.fragment.adapter.SubjectTabAdapter;
+import run.ikaros.app.and.infra.utils.Assert;
 
 public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVideoPlayer> {
 
     StandardGSYVideoPlayer detailPlayer;
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
+    private SubjectClient subjectClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_details);
 
+        // init subject client
+        SharedPreferences sharedPreferences = getSharedPreferences(UserKeyConst.SHARED_PREFERENCES, MODE_PRIVATE);
+        String username = sharedPreferences.getString(UserKeyConst.USERNAME, "");
+        if (Objects.isNull(username) || "".equals(username)) {
+            Intent in = new Intent(SubjectDetailsActivity.this, LoginActivity.class);
+            startActivity(in);
+        } else {
+            AuthParams authParams = new AuthParams();
+            authParams.setBaseUrl(sharedPreferences.getString(UserKeyConst.BASE_URL, ""));
+            authParams.setUsername(sharedPreferences.getString(UserKeyConst.USERNAME, ""));
+            authParams.setPassword(sharedPreferences.getString(UserKeyConst.PASSWORD, ""));
+            subjectClient = new SubjectClient(authParams);
+        }
 
+        // get subjectId
+        Intent intent = getIntent();
+        Long subjectId = intent.getLongExtra("id", 0L);
+        Subject subject = getSubjectById(subjectId);
 
         // bind tab fragments
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.subjectViewPager);
         SubjectTabAdapter tabAdapter = new SubjectTabAdapter(getSupportFragmentManager(), getLifecycle());
+        tabAdapter.setSubject(subject);
         viewPager.setAdapter(tabAdapter);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
@@ -65,6 +94,29 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
             getWindow().setAttributes(lp);
         }
 
+    }
+
+    private Subject getSubjectById(Long subjectId) {
+        Assert.isTrue(subjectId > 0, "subject id must > 0.");
+        AtomicReference<Subject> subject = new AtomicReference<>();
+        Thread thread = new Thread(() -> {
+            try {
+                subject.set(subjectClient.findById(subjectId));
+            } catch (Exception e) {
+                Log.e(SubjectDetailsActivity.class.getSimpleName(), "请求条目API异常", e);
+                SubjectDetailsActivity.this.runOnUiThread(() ->
+                        Toast.makeText(getApplicationContext(), "请求条目API异常", Toast.LENGTH_LONG).show());
+            }
+        });
+        thread.start();
+        while (thread.isAlive()) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return subject.get();
     }
 
 

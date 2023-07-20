@@ -1,10 +1,11 @@
 package run.ikaros.app.and.fragment.subject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,57 +15,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.Objects;
-
 import run.ikaros.app.and.R;
+import run.ikaros.app.and.api.subject.model.Subject;
 import run.ikaros.app.and.constants.TmpConst;
+import run.ikaros.app.and.constants.UserKeyConst;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SubjectMetaFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SubjectMetaFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private final Subject subject;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public SubjectMetaFragment() {
-        // Required empty public constructor
+    public SubjectMetaFragment(Subject subject) {
+        this.subject = subject;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SubjectMetaFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SubjectMetaFragment newInstance(String param1, String param2) {
-        SubjectMetaFragment fragment = new SubjectMetaFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,21 +36,26 @@ public class SubjectMetaFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_subject_meta, container, false);
 
         final TextView titleTextView = rootView.findViewById(R.id.subjectTitle);
-        titleTextView.setText(TmpConst.Nas.Subject.TITLE);
+        titleTextView.setText(subject.getName());
 
         final TextView titleCnTextView = rootView.findViewById(R.id.subjectTitleCn);
-        titleCnTextView.setText(TmpConst.Nas.Subject.TITLE_CN);
+        titleCnTextView.setText(subject.getNameCn());
 
         final TextView descTextView = rootView.findViewById(R.id.subjectDesc);
-        descTextView.setText(TmpConst.Nas.Subject.DESC);
+        descTextView.setText(subject.getSummary());
 
         final ImageView imageView = rootView.findViewById(R.id.subjectCover);
         imageView.setContentDescription("Subject cover.");
-        Uri imageUri = Uri.parse(TmpConst.Nas.Subject.COVER);
+        Uri imageUri = Uri.parse(getBaseUrl() + subject.getCover());
         Glide.with(this)
                 .load(imageUri)
                 .into(imageView);
 
         return rootView;
+    }
+
+    private String getBaseUrl() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(UserKeyConst.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(UserKeyConst.BASE_URL, "");
     }
 }

@@ -38,6 +38,7 @@ public class SubjectActivity extends AppCompatActivity {
         binding = ActivitySubjectBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // init subject client
         SharedPreferences sharedPreferences = getSharedPreferences(UserKeyConst.SHARED_PREFERENCES, MODE_PRIVATE);
         String username = sharedPreferences.getString(UserKeyConst.USERNAME, "");
         if (Objects.isNull(username) || "".equals(username)) {

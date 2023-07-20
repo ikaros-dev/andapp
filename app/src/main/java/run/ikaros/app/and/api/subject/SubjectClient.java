@@ -55,4 +55,20 @@ public class SubjectClient {
     public PagingWrap<Subject> listSubjectsByCondition() {
         return listSubjectsByCondition(null, null, null, null, null, null);
     }
+
+    public Subject findById(Long id) {
+        Assert.isTrue(id > 0, "subject id must > 0.");
+        try {
+            String authStr = AuthorizationUtils.encodeBasicHeader(authParams.getUsername(), authParams.getPassword());
+            Response<Subject> response
+                    = subjectApi.findById(authStr, id).execute();
+            if (response.isSuccessful()) {
+                return response.body();
+            } else {
+                throw new RuntimeException(response.message());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

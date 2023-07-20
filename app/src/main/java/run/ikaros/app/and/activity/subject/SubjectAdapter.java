@@ -83,15 +83,13 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     public static class SubjectViewHolder extends RecyclerView.ViewHolder {
         private ImageView subjectImageView;
         private TextView subjectTextView;
+        private TextView subjectIdTextView;
 
         public SubjectViewHolder(@NonNull View itemView, Activity activity) {
             super(itemView);
             subjectImageView = itemView.findViewById(R.id.subjectImageView);
             subjectTextView = itemView.findViewById(R.id.subjectTextView);
-            subjectImageView.setOnClickListener(v -> {
-                Intent intent = new Intent(activity, SubjectDetailsActivity.class);
-                activity.startActivity(intent);
-            });
+            subjectIdTextView = itemView.findViewById(R.id.subjectIdTextView);
         }
 
         public SubjectViewHolder(@NonNull View itemView, Fragment fragment) {
@@ -172,6 +170,12 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
                     });
 
             subjectTextView.setText(subject.getName());
+            subjectIdTextView.setText(String.valueOf(subject.getId()));
+            subjectImageView.setOnClickListener(v -> {
+                Intent intent = new Intent(activity, SubjectDetailsActivity.class);
+                intent.putExtra("id", subject.getId());
+                activity.startActivity(intent);
+            });
         }
     }
 }

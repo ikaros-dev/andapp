@@ -15,7 +15,7 @@
             android:id="@+id/subjectImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="A Subject"
+            android:contentDescription="A subject cover"
             android:scaleType="centerCrop" />
 
         <TextView
@@ -25,6 +25,12 @@
             android:layout_gravity="center"
             android:textColor="#000000"
             android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/subjectIdTextView"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>
