@@ -17,7 +17,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.util.List;
@@ -185,6 +187,24 @@ public class SubjectDetailsActivity extends GSYBaseActivityDetail<StandardGSYVid
         Log.i(SubjectDetailsActivity.class.getSimpleName(), "switch video title and url: " + episodeUrl);
     }
 
+    @Override
+    public void onStartPrepared(String url, Object... objects) {
+        super.onStartPrepared(url, objects);
+        /// 硬解码
+        GSYVideoType.enableMediaCodec();
+        GSYVideoType.enableMediaCodecTexture();
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /// 硬解码
+        GSYVideoType.disableMediaCodec();
+        GSYVideoType.disableMediaCodecTexture();
+        GSYVideoManager.releaseAllVideos();
+    }
 //    private void loadCover(ImageView imageView, String url) {
 //        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //        imageView.setImageResource(R.mipmap.xxx1);
